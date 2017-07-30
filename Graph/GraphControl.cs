@@ -625,10 +625,20 @@ namespace Graph
 				this.Invalidate();
 			return modified;
 		}
-		#endregion
+        #endregion
 
-		#region Connect
-		public NodeConnection Connect(NodeItem from, NodeItem to)
+        #region Clear
+        public void Clear()
+        {
+            for (int i = graphNodes.Count - 1; i >= 0; i--)
+            {
+                RemoveNode(graphNodes[i]);
+            }
+        }
+        #endregion
+
+        #region Connect
+        public NodeConnection Connect(NodeItem from, NodeItem to)
 		{
 			return Connect(from.Output, to.Input);
 		}
