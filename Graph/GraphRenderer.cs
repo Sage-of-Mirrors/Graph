@@ -389,7 +389,7 @@ namespace Graph
 					float centerY;
 					using (var path = GetArrowLinePath(x1, y1, x2, y2, out centerX, out centerY, false))
 					{
-						using (var brush = new SolidBrush(GetArrowLineColor(connection.state | RenderState.Connected)))
+						using (var brush = new SolidBrush(GetArrowLineColor(connection.state | RenderState.Connected, connection.RenderColor)))
 						{
 							graphics.FillPath(brush, path);
 						}
@@ -514,8 +514,46 @@ namespace Graph
 			} else
 				return Color.LightGray;
 		}
-		
-		static PointF[] GetArrowPoints(float x, float y, float extra_thickness = 0)
+
+        static Color GetArrowLineColor(RenderState state, Color connectionDefault)
+        {
+            if ((state & (RenderState.Hover | RenderState.Dragging)) != 0)
+            {
+                if ((state & RenderState.Incompatible) != 0)
+                {
+                    return Color.Red;
+                }
+                else
+                if ((state & RenderState.Compatible) != 0)
+                {
+                    return Color.DarkOrange;
+                }
+                else
+                if ((state & RenderState.Dragging) != 0)
+                    return Color.SteelBlue;
+                else
+                    return Color.DarkOrange;
+            }
+            else
+            if ((state & RenderState.Incompatible) != 0)
+            {
+                return Color.Gray;
+            }
+            else
+            if ((state & RenderState.Compatible) != 0)
+            {
+                return Color.White;
+            }
+            else
+            if ((state & RenderState.Connected) != 0)
+            {
+                return connectionDefault;
+            }
+            else
+                return Color.LightGray;
+        }
+
+        static PointF[] GetArrowPoints(float x, float y, float extra_thickness = 0)
 		{
 			return new PointF[]{
 					new PointF(x - (GraphConstants.ConnectorSize + 1.0f) - extra_thickness, y + (GraphConstants.ConnectorSize / 1.5f) + extra_thickness),

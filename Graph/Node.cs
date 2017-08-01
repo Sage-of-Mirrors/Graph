@@ -84,6 +84,7 @@ namespace Graph
 		public bool				HasNoItems		{ get { return nodeItems.Count == 0; } }
 
 		public PointF			Location		{ get; set; }
+        public RectangleF       Bounds          { get { return bounds; } }
 		public object			Tag				{ get; set; }
 
 		public IEnumerable<NodeConnection>	Connections { get { return connections; } }

@@ -53,6 +53,7 @@ namespace Graph
 		public NodeConnector	From	{ get; set; }
 		public NodeConnector	To		{ get; set; }
 		public string			Name	{ get; set; }
+        public Color            RenderColor { get; set; }
 		public object			Tag		{ get; set; }
 		
 		internal RenderState	state;
@@ -63,5 +64,10 @@ namespace Graph
 		internal void			DoDoubleClick() { if (DoubleClick != null) DoubleClick(this, new NodeConnectionEventArgs(this)); }
 
 		public ElementType ElementType { get { return ElementType.Connection; } }
+
+        public NodeConnection()
+        {
+            RenderColor = Color.Black;
+        }
 	}
 }
