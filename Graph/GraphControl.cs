@@ -462,7 +462,7 @@ namespace Graph
 		bool					mouseMoved		= false;
 		bool					dragging		= false;
 		bool					abortDrag		= false;
-		readonly List<Node>		selectedNodes	= new List<Node>();
+		public readonly List<Node>		selectedNodes	= new List<Node>();
 		readonly List<Node>		unselectedNodes	= new List<Node>();
 		CommandMode				command			= CommandMode.Edit;
 		MouseButtons			currentButtons;
@@ -472,6 +472,9 @@ namespace Graph
 		PointF					originalLocation;
 		Point					originalMouseLocation;
 		
+        public PointF Translation { get { return translation; } set { translation = value; } }
+        public float Zoom { get { return zoom; } set { zoom = value; } }
+
 		PointF					translation = new PointF();
 		float					zoom = 1.0f;
 
@@ -909,7 +912,7 @@ namespace Graph
 		#endregion
 		
 		#region GetTransformedLocation
-		PointF GetTransformedLocation()
+		public PointF GetTransformedLocation()
 		{
 			var points = new PointF[] { snappedLocation };
 			inverse_transformation.TransformPoints(points);
@@ -921,10 +924,23 @@ namespace Graph
 			}
 			return transformed_location;
 		}
-		#endregion
+        #endregion
 
-		#region GetMarqueRectangle
-		RectangleF GetMarqueRectangle()
+        public PointF GetTransformedLocation(PointF point)
+        {
+            var points = new PointF[] { point };
+            inverse_transformation.TransformPoints(points);
+            var transformed_location = points[0];
+
+            if (abortDrag)
+            {
+                transformed_location = originalLocation;
+            }
+            return transformed_location;
+        }
+
+        #region GetMarqueRectangle
+        RectangleF GetMarqueRectangle()
 		{
 			var transformed_location = GetTransformedLocation();
 			var x1 = transformed_location.X;
@@ -1963,7 +1979,7 @@ namespace Graph
 		protected override void OnKeyUp(KeyEventArgs e)
 		{
 			base.OnKeyUp(e);
-			if (e.KeyCode == Keys.Delete)
+			/*if (e.KeyCode == Keys.Delete)
 			{
 				if (FocusElement == null)
 					return;
@@ -1980,7 +1996,7 @@ namespace Graph
 						break;
 					}
 				}
-			}
+			}*/
 		}
 		#endregion
 

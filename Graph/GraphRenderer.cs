@@ -576,18 +576,20 @@ namespace Graph
 			var xA = x1 + lengthX;
 			var xB = x2 - lengthX;
 
-			/*
+            /*
 			if (widthX >= 120)
 			{
 				xA = xB = xC = x2 - 60;
 			}
 			//*/
-			
-			var points = new List<PointF> { 
-				new PointF(x1, y1),
-				new PointF(xA, y1),
-				new PointF(xB, y2),
-				new PointF(x2 - GraphConstants.ConnectorSize - extra_thickness, y2)
+
+            var points = new List<PointF> {
+                new PointF(x1, y1),
+                new PointF(x2 - GraphConstants.ConnectorSize - extra_thickness, y2),
+                new PointF(x2 - GraphConstants.ConnectorSize - extra_thickness, y2),
+                new PointF(x1, y1)
+				//new PointF(xB, y2),
+				//new PointF(x2 - GraphConstants.ConnectorSize - extra_thickness, y2)
 			};
 
 			var t  = 1.0f;//Math.Min(1, Math.Max(0, (widthX - 30) / 60.0f));
@@ -595,14 +597,14 @@ namespace Graph
 
 			if (widthX <= 120)
 			{
-				points.Insert(2, new PointF(xB, yA));
-				points.Insert(2, new PointF(xC, yA));
-				points.Insert(2, new PointF(xA, yA));
+				//points.Insert(2, new PointF(xB, yA));
+				//points.Insert(2, new PointF(xC, yA));
+				//points.Insert(2, new PointF(xA, yA));
 			}
 			//*
 			using (var tempPath = new GraphicsPath())
 			{
-				tempPath.AddBeziers(points.ToArray());
+				tempPath.AddLines(points.ToArray());
 				tempPath.Flatten();
 				points = tempPath.PathPoints.ToList();
 			}
